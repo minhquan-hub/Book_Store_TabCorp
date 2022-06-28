@@ -5,18 +5,22 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "pwa-node",
-            "request": "launch",
-            "name": "Debug backend",
+            "name": "Attach",
+            "port": 9229,
+            "request": "attach",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${server.ts}",
-            "runtimeArgs": ["-r", "ts-node/server", "-r", "tsconfig-paths/register"],
-            "console": "integratedTerminal",
-            "outFiles": [
-                "${workspaceFolder}/**/*.js"
-            ]
+            "type": "node"
+        },
+        {
+            "type": "pwa-node",
+            "request": "launch",
+            "name": "Launch Program",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}\\Backend\\server.js"
         }
     ]
 }
