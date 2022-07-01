@@ -68,9 +68,9 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // Router
-app.use('/user', userRoute);
-app.use('/auth', authRoute);
-app.use('/book', bookRoute);
+app.use('/api/user', userRoute);
+app.use('/api/auth', authRoute);
+app.use('/api/book', bookRoute);
 
 app.listen(port, () => {
     console.log(`Server listening on http://localhost:${port}`);

@@ -3,8 +3,6 @@ const jwt = require('jsonwebtoken')
 
 const User = require('../models/User');
 
-const refreshTokenArr = [];
-
 class AuthService {
     constructor() {}
 
@@ -12,18 +10,10 @@ class AuthService {
         return jwt.sign({
             id: user._id,
             email: user.email,
+            role: user.role
         }, process.env.JWT_ACCESS_KEY, {
-            expiresIn: "10m"
+            expiresIn: "10h"
         });
-    }
-
-    generateRefreshToken(user) {
-        return jwt.sign({
-            id: user._id,
-            email: user.email,
-        }, process.env.JWT_REFRESH_KEY, {
-            expiresIn: "2h"
-        })
     }
 
     async loginUser(LoginRequest) {
@@ -31,15 +21,11 @@ class AuthService {
             email: "",
             roleName: "",
             token: "",
-            reFreshToken: "",
             isSuccess: false,
         }
-        console.log("Login email: " + LoginRequest.email)
+
         const user = await User.findOne({ email: LoginRequest.email });
-        console.log("1" + user)
         if (!user) return AuthDto;
-        console.log("user data: " + user.password);
-        console.log("LoginRequest password: " + LoginRequest.password);
 
         const validPassword = await bcrypt.compare(LoginRequest.password, user.password)
             .then((valid) => {
@@ -48,19 +34,15 @@ class AuthService {
             .catch((err) => {
                 console.error("Error: " + err);
             });
-        console.log("validPassword: " + validPassword);
         if (!validPassword) return AuthDto;
 
         if (user && validPassword) {
             const token = this.generateAccessToken(user);
-            const reFreshToken = this.generateRefreshToken(user);
-            refreshTokenArr.push(reFreshToken);
 
             AuthDto = {
                 email: user.email,
-                roleName: "",
+                roleName: user.role,
                 token: token,
-                reFreshToken: reFreshToken,
                 isSuccess: true,
             }
 

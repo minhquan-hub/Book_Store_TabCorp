@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const seeder = require('mongoose-seed');
-const express = require('express');
 const dotenv = require('dotenv');
 const Book = require('../models/Book');
 
@@ -13,10 +11,10 @@ mongoose
         useUnifiedTopology: true,
     })
     .then(() => {
-        console.log('Connected to MongoDB')
+        console.log('Connected to MongoDB');
     })
     .catch((err) => {
-        console.log('Failed to connect to MongoDB', err)
+        console.log('Failed to connect to MongoDB', err);
     });
 
 const seedBook = [{

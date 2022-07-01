@@ -13,11 +13,15 @@ const userSchema = new mongoose.Schema({
         require: true,
         minlength: 6,
     },
+    role: {
+        type: String,
+        require: true,
+    },
     phone: {
         type: String,
         required: true,
         minlength: 8,
-        maxlength: 13
+        maxlength: 10
     }
 }, { timestamps: true })
 

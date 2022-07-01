@@ -1,7 +1,8 @@
 const express = require('express');
 const route = express.Router();
 
-const bookController = require('../controllers/BookController')
+const bookController = require('../controllers/BookController');
+const middlewareAdmin = require('../middlewares/userMiddleware').verifyTokenAndIsAdmin;
 
 // Book
 /**
@@ -54,7 +55,7 @@ const bookController = require('../controllers/BookController')
 
 /**
  * @openapi
- * /book:
+ * /api/book:
  *   get:
  *     summary: Returns the list of all the books
  *     tags: [Books]
@@ -80,9 +81,15 @@ const bookController = require('../controllers/BookController')
 
 route.get('/', bookController.getBooks);
 
+route.get('/:id', bookController.getBookById);
+
+
+
+
+
 /**
  * @openapi
- * /book:
+ * /api/book:
  *  post:
  *      summary: Create a new book 
  *      tags: [Books]
@@ -103,11 +110,11 @@ route.get('/', bookController.getBooks);
  *              description: Something server error
  */
 
-route.post('/', bookController.postBook);
+route.post('/', middlewareAdmin, bookController.postBook);
 
 /**
  * @openapi
- * /book/{id}:
+ * /api/book/{id}:
  *  put:
  *      summary: Update a book 
  *      tags: [Books]
@@ -131,11 +138,11 @@ route.post('/', bookController.postBook);
  *              description: Something server error
  */
 
-route.put('/:id', bookController.putBook);
+route.put('/:id', middlewareAdmin, bookController.putBook);
 
 /**
  * @openapi
- * /book/{id}:
+ * /api/book/{id}:
  *  delete:
  *      summary: Delete a book 
  *      tags: [Books]
@@ -153,7 +160,7 @@ route.put('/:id', bookController.putBook);
  *              description: Something server error
  */
 
-route.delete('/:id', bookController.deleteBook);
+route.delete('/:id', middlewareAdmin, bookController.deleteBook);
 
 
 

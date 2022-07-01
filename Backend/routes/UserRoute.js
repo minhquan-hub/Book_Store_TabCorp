@@ -17,6 +17,7 @@ const User = require('../models/User');
  *         - id
  *         - username
  *         - password
+ *         - role
  *         - email
  *         - phone
  *       properties:
@@ -35,7 +36,8 @@ const User = require('../models/User');
  *       example:
  *         email: "quan123@gmail.com"
  *         password: "quan123"
- *         phone: "09247211284"
+ *         role: "Admin"
+ *         phone: "0924721184"
  */
 
 /**
@@ -45,58 +47,13 @@ const User = require('../models/User');
  *   description: The users managing API
  */
 
-/**
- * @openapi
- * /user/{id}:
- *   get:
- *     summary: Returns the list of all the books
- *     tags: [Users]
- *     parameters:
- *          - name: id
- *            in: path
- *            require: true
- *            description: The user id
- *     responses:
- *       200:
- *         description: The list of the books
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/BookStore/DataAccessor/models/User'
- */
-
 route.get('/:id', (req, res) => {
     res.send("ok ok ok ok" + req.params.id);
 });
 
-// route.post('/add', async (req:  express.Request, res: express.Response) => {
-//     try {
-//         const salt = await bcrypt.genSalt(10)
-//         const hashed = bcrypt.hash(req.body.password, salt)
-//         console.log(req.body);
-//         // create user
-//         const newUser = new User({
-//             username: req.body.username,
-//             phone: req.body.phone,
-//             email: req.body.email,
-//         })
-//         console.log(newUser.email);
-//         // save
-//         const user = await newUser.save()
-//         console.log("ok ok ok ");
-//         res.status(200).json(user)
-
-//     } catch (err) {
-//         console.log(err)
-//         res.status(500).json(err)
-//     }}
-// );
-
 /**
  * @openapi
- * /user:
+ * /api/user:
  *  post:
  *      summary: Create a new user 
  *      tags: [Users]
@@ -119,14 +76,5 @@ route.get('/:id', (req, res) => {
 
 route.post('/', userController.postUser);
 
-
-
-// route.get('/:id', (req, res) => {
-//     res.send(req.params.id)
-// })
-
-// route.post('/', (req, res) => {
-//     res.send("ok ok ok")
-// });
 
 module.exports = route;

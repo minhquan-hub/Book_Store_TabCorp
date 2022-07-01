@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 
 const userMiddleware = {
     verifyToken: (req, res, next) => {
-        const token = req.headers.token
+        const token = req.headers.authorization
         if (token) {
             const accessToken = token.split(" ")[1];
             jwt.verify(accessToken, process.env.JWT_ACCESS_KEY, (err, user) => {
@@ -18,7 +18,7 @@ const userMiddleware = {
     },
     verifyTokenAndIsAdmin: (req, res, next) => {
         userMiddleware.verifyToken(req, res, () => {
-            if (req.user.admin) {
+            if (req.user.role == "Admin") {
                 next()
             } else {
                 return res.status(403).json("You're not allowed")

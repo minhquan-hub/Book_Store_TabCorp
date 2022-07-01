@@ -12,6 +12,17 @@ const BookController = {
         }
     },
 
+    getBookById: async(req, res) => {
+        try {
+            const id = req.params.id;
+            const book = await bookService.getBookById(id);
+            res.status(200).json(book);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json("Something server error");
+        }
+    },
+
     postBook: async(req, res) => {
         try {
             const bookCreateDto = req.body;

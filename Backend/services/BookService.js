@@ -3,22 +3,23 @@ const Book = require('../models/Book');
 class BookService {
 
     async getBooks(bookCriteriaDto) {
-        const sortOrder = parseInt(bookCriteriaDto.sortOrder);
-        const sortColumn = bookCriteriaDto.sortColumn;
-        const books = Book.aggregate([{
-                '$sort': {
-                    [sortColumn]: sortOrder
-                }
-            },
+
+        const books = Book.aggregate([{ $sort: { 'updatedAt': 1 } },
+            { $match: { isDelete: false } },
             {
                 '$facet': {
                     metadata: [{ $count: "total" }, { $addFields: { page: 3 } }],
-                    data: [{ $skip: 10 }, { $limit: 6 }] // add projection here wish you re-shape the docs
+                    data: [{ $skip: 10 }, { $limit: 12 }] // add projection here wish you re-shape the docs
                 }
             }
         ]);
 
         return books;
+    }
+
+    async getBookById(id) {
+        const book = await Book.findById(id);
+        return book;
     }
 
     async addBook(bookCreateDto) {
@@ -28,8 +29,8 @@ class BookService {
             author: bookCreateDto.author,
             category: bookCreateDto.category,
             description: bookCreateDto.description,
-            price: bookCreateDto.price,
-            quantity: bookCreateDto.quantity,
+            price: parseInt(bookCreateDto.price),
+            quantity: parseInt(bookCreateDto.quantity),
             image: bookCreateDto.image,
             isDelete: false
         });

@@ -19,6 +19,7 @@ class UserService {
         const newUser = new User({
             email: userCreateDto.email,
             password: hashed,
+            role: userCreateDto.role,
             phone: userCreateDto.phone,
         });
 
@@ -27,4 +28,4 @@ class UserService {
     }
 }
 
-module.exports = UserService;
+module.exports = new UserService();

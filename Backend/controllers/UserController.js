@@ -1,6 +1,3 @@
-const express = require('express');
-const bcrypt = require('bcrypt');
-
 const userService = require('../services/UserService');
 
 const UserController = {
